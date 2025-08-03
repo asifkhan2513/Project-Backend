@@ -3,54 +3,71 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
 const OTP = require("../models/OTP");
-
 require("dotenv");
-//sign up
+
 exports.signup = async (req, res) => {
   try {
-    console.log("working good");
-    const { name, email, password, otp } = req.body;
+    const { name, email, password, otp, role } = req.body;
 
-    if (!name || !email || !password || !otp) {
-      return res.status(404).json({
+    if (!name || !email || !password || !otp || !role) {
+      return res.status(400).json({
         success: false,
         message: "All fields are required",
       });
     }
-    console.log("working good");
-    //checking id the already exit
+
+    // 1. Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(404).json({
+      return res.status(409).json({
         success: false,
-        message: "User already exist",
+        message: "User already exists",
       });
     }
-    // console.log(password);
-    let hashPassword;
-    try {
-      hashPassword = await bcrypt.hash(password, 10);
-    } catch (error) {
-      return res.status(500).json({
+
+    // 2. Fetch the most recent OTP for the email
+    const recentOtp = await OTP.findOne({ email })
+      .sort({ createdAt: -1 })
+      .limit(1);
+
+    if (!recentOtp) {
+      return res.status(400).json({
         success: false,
-        message: "Error in hashing",
+        message: "OTP not found or expired",
       });
     }
-    // create a entry for new user
+
+    // 3. Compare provided OTP with stored OTP
+    if (recentOtp.otp !== otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP",
+      });
+    }
+
+    // 4. Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // 5. Create the new user
     const user = await User.create({
       name,
       email,
-      password: hashPassword,
+      password: hashedPassword,
+      role,
     });
-    return res.status(200).json({
+
+    // 6. Optionally delete OTP after successful signup
+    await OTP.deleteMany({ email });
+
+    return res.status(201).json({
       success: true,
-      message: "USer Entry Succesful",
+      message: "User registered successfully",
     });
   } catch (error) {
-    console.error(error);
+    console.error("Signup Error:", error);
     return res.status(500).json({
       success: false,
-      message: "user can't be registered, please try again later",
+      message: "Signup failed, please try again later",
     });
   }
 };
@@ -97,8 +114,8 @@ exports.login = async (req, res) => {
       };
       res.cookie("token", token, options).status(200).json({
         success: true,
-        token,
         user,
+        token,
         message: "user logged succefully",
       });
     } else {
@@ -142,13 +159,10 @@ exports.sendotp = async (req, res) => {
     console.log(otp);
 
     var result = await OTP.findOne({ otp: otp });
-    console.log("working fine");
+    
 
     var result = await OTP.findOne({ email: email });
 
-    console.log("Result is Generate OTP Func");
-    console.log("OTP", otp);
-    console.log("Result", result);
     while (result) {
       otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,

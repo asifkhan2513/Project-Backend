@@ -3,7 +3,7 @@ const router = express.Router();
 const { login, signup, sendotp } = require("../controllers/userController");
 const { auth, isAdmin } = require("../middleware/userAuth");
 
-router.post("/login", login);
+router.post("/auth/login", login);
 
 // Route for user signup
 router.post("/auth/signup", signup);
