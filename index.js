@@ -33,7 +33,7 @@ app.use(
 app.use("/api/v1/", userRoutes);
 const employeeRoutes = require("./routes/employee");
 app.use("/api/v1/", employeeRoutes);
-app.use("/api/attendance", attendanceRoutes);
+app.use("/api/v1/attendance", attendanceRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use("/api/salary", salaryRoutes);
 app.use("/api/dashboard", dashboardRoutes);

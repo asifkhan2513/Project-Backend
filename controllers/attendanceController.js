@@ -2,6 +2,7 @@ const Attendance = require("../models/Attendance");
 const Employee = require("../models/Employee");
 
 // Mark Attendance
+// working
 exports.markAttendance = async (req, res) => {
   try {
     const { employeeId, status } = req.body;
@@ -20,12 +21,10 @@ exports.markAttendance = async (req, res) => {
       date,
     });
     if (alreadyMarked)
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Attendance already marked for today",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Attendance already marked for today",
+      });
 
     const attendance = await Attendance.create({
       employee: employeeId,
@@ -39,9 +38,11 @@ exports.markAttendance = async (req, res) => {
 };
 
 // Get Attendance Report
+// working
 exports.getAttendanceReport = async (req, res) => {
   try {
     const { employeeId } = req.query;
+
     if (!employeeId)
       return res
         .status(400)
