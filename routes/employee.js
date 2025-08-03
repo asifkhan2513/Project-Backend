@@ -12,11 +12,11 @@ const {
 const { verifyToken } = require("../middleware/userAuth");
 
 // All routes below are protected
-
 router.post("/employees", verifyToken, createEmployee); // Add employee
 router.get("/employees", verifyToken, getAllEmployees); // View all employees
 router.get("/employees/:id", verifyToken, getEmployeeById); // View single employee
 router.put("/employees/:id", verifyToken, updateEmployee); // Update employee
-router.delete("/employees/:id", verifyToken, deleteEmployee); // Delete employee
+router.delete("/employees/:id", verifyToken, deleteEmployee); // Delete 
+router.put("/employees/update/:id", verifyToken, updateEmployee);// update alternative
 
 module.exports = router;

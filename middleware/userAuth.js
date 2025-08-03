@@ -53,8 +53,6 @@ exports.isAdmin = (req, res, next) => {
 };
 
 // middleware/authMiddleware.js
-
-
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 

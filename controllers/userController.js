@@ -5,6 +5,7 @@ const otpGenerator = require("otp-generator");
 const OTP = require("../models/OTP");
 require("dotenv");
 
+// sign up
 exports.signup = async (req, res) => {
   try {
     const { name, email, password, otp, role } = req.body;
@@ -72,6 +73,7 @@ exports.signup = async (req, res) => {
   }
 };
 
+// login
 exports.login = async (req, res) => {
   try {
     // data fetch
@@ -133,6 +135,7 @@ exports.login = async (req, res) => {
   }
 };
 
+// otp functionality
 exports.sendotp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -159,7 +162,6 @@ exports.sendotp = async (req, res) => {
     console.log(otp);
 
     var result = await OTP.findOne({ otp: otp });
-    
 
     var result = await OTP.findOne({ email: email });
 
