@@ -1,4 +1,6 @@
 const Employee = require("../models/Employee");
+
+//create employee
 exports.createEmployee = async (req, res) => {
   try {
     const email = req.body.personalInfo?.email;

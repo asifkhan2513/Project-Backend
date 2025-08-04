@@ -12,6 +12,25 @@ exports.applyLeave = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Employee not found" });
 
+    // over lapping (try  again leave)
+    const overlap = await Leave.findOne({
+      employee: employeeId,
+      status: { $in: ["Pending", "Approved"] },
+      $or: [
+        {
+          fromDate: { $lte: new Date(toDate) },
+          toDate: { $gte: new Date(fromDate) },
+        },
+      ],
+    });
+    if (overlap) {
+      return res.status(400).json({
+        success: false,
+        message: "An overlapping leave request already exists.",
+      });
+    }
+    
+    //create leave
     const leave = await Leave.create({
       employee: employeeId,
       fromDate,
@@ -52,9 +71,11 @@ exports.getLeavesByEmployee = async (req, res) => {
 };
 
 // Update Leave Status (Approve/Reject)
+console.log("working");
 exports.updateLeaveStatus = async (req, res) => {
   try {
     const { id } = req.params;
+
     const { status } = req.body;
 
     if (!["Approved", "Rejected"].includes(status)) {
