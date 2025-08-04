@@ -3,6 +3,7 @@ const Attendance = require("../models/Attendance");
 const Leave = require("../models/Leave");
 const Salary = require("../models/Salary");
 
+// working
 exports.getDashboardStats = async (req, res) => {
   try {
     const totalEmployees = await Employee.countDocuments();

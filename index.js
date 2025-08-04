@@ -36,7 +36,7 @@ app.use("/api/v1/", employeeRoutes);
 app.use("/api/v1/attendance", attendanceRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use("/api/salary", salaryRoutes);
-app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/v1/dashboard", dashboardRoutes);
 app.use("/api/settings", settingsRoutes);
 
 app.listen(PORT, () => {
