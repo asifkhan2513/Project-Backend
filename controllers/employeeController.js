@@ -42,6 +42,16 @@ exports.getAllEmployees = async (req, res) => {
   }
 };
 
+// Calculate Total Employee Count
+exports.getEmployeeCount = async (req, res) => {
+  try {
+    const total = await Employee.countDocuments();
+    res.status(200).json({ total });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Get Single Employee
 exports.getEmployeeById = async (req, res) => {
   try {
@@ -56,23 +66,6 @@ exports.getEmployeeById = async (req, res) => {
   }
 };
 
-// Update Employee
-// exports.updateEmployee = async (req, res) => {
-//   try {
-//     const employee = await Employee.findByIdAndUpdate(req.params.id, req.body, {
-//       new: true,
-//     });
-//     if (!employee)
-//       return res
-//         .status(404)
-//         .json({ success: false, message: "Employee not found" });
-//     res.status(200).json({ success: true, employee });
-//   } catch (error) {
-//     res.status(500).json({ success: false, message: error.message });
-//   }
-// };
-
-// controllers/employeeController.js
 // working
 exports.updateEmployee = async (req, res) => {
   try {
@@ -107,6 +100,7 @@ exports.updateEmployee = async (req, res) => {
 
     res.status(200).json({ success: true, employee });
   } catch (error) {
+    console.log("i am error");
     res.status(500).json({ success: false, message: error.message });
   }
 };

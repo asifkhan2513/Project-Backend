@@ -2,7 +2,7 @@ const Salary = require("../models/Salary");
 const Employee = require("../models/Employee");
 const Attendance = require("../models/Attendance");
 const PDFDocument = require("pdfkit"); // npm i pdfkit
-const stream = require("stream");
+
 
 // Generate Salary with attendance calculation and duplicate prevention
 exports.generateSalary = async (req, res) => {
@@ -55,7 +55,7 @@ exports.generateSalary = async (req, res) => {
       perDaySalary = basic / totalWorkingDays;
     }
 
-    const netSalary = perDaySalary * presentDays + allowance - deductions;
+    const netSalary =( perDaySalary * presentDays) + (allowance - deductions);
 
     const salary = await Salary.create({
       employee: employeeId,

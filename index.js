@@ -9,6 +9,8 @@ const salaryRoutes = require("./routes/salary");
 const dashboardRoutes = require("./routes/dashboard");
 const settingsRoutes = require("./routes/settings");
 const bodyParser = require("body-parser");
+const employeeRoutes = require("./routes/employee");
+
 
 require("dotenv").config();
 database.connect();
@@ -31,7 +33,6 @@ app.use(
 
 // mounting
 app.use("/api/v1/", userRoutes);
-const employeeRoutes = require("./routes/employee");
 app.use("/api/v1/", employeeRoutes);
 app.use("/api/v1/attendance", attendanceRoutes);
 app.use("/api/v1/leave", leaveRoutes);
