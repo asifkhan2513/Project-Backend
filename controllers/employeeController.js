@@ -80,6 +80,7 @@ exports.updateEmployee = async (req, res) => {
       "nomineeInfo",
       "idDetails",
       "documents",
+      "jobInfo",
     ];
     const updates = {};
 

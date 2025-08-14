@@ -6,10 +6,6 @@ const employeeSchema = new mongoose.Schema(
       name: { type: String, required: true },
       email: { type: String, required: true },
       salary: { type: String, required: true },
-      netsalary: { type: String, required: true },
-      branch: { type: String },
-      department: { type: String },
-      designation: { type: String },
       phone: String,
       dob: String,
       gender: String,
@@ -26,6 +22,20 @@ const employeeSchema = new mongoose.Schema(
       relation: String,
       contact: String,
     },
+    jobInfo: {
+      companyName: { type: String },
+      jobTitle: { type: String },
+      joiningDate: { type: String },
+      salary: { type: String },
+      experience: { type: String },
+      address: { type: String },
+      branch: { type: String },
+      department: { type: String },
+      netsalary: { type: String },
+      designation: { type: String },
+      
+    },
+
     idDetails: {
       aadhaar: String,
       pan: String,
