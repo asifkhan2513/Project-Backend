@@ -52,7 +52,7 @@ exports.isAdmin = (req, res, next) => {
   }
 };
 
-// middleware/authMiddleware.js
+
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -70,5 +70,44 @@ const verifyToken = (req, res, next) => {
     return res.status(401).json({ message: "Token is invalid or expired" });
   }
 };
+
+module.exports = { verifyToken };
+
+// middleware/authMiddleware.js
+// const jwt = require("jsonwebtoken");
+
+/**
+ * Middleware to verify JWT Token
+ */
+
+// const verifyToken = (req, res, next) => {
+//   try {
+//     // Check if Authorization header exists
+//     const authHeader = req.headers["authorization"];
+//     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+//       return res
+//         .status(401)
+//         .json({ success: false, message: "Unauthorized: No token provided" });
+//     }
+
+//     // Extract token from header
+//     const token = authHeader.split(" ")[1];
+
+//     // Verify token
+//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+//     // Attach decoded user info to request object
+//     req.user = decoded;
+
+//     // Continue to next middleware/controller
+//     next();
+//   } catch (err) {
+//     console.error("JWT Verification Error:", err.message);
+//     return res.status(401).json({
+//       success: false,
+//       message: "Unauthorized: Token is invalid or expired",
+//     });
+//   }
+// };
 
 module.exports = { verifyToken };

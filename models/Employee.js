@@ -5,13 +5,13 @@ const employeeSchema = new mongoose.Schema(
     personalInfo: {
       name: { type: String, required: true },
       email: { type: String, required: true },
-      salary: { type: String, required: true },
       phone: String,
       dob: String,
       gender: String,
       address: String,
     },
     bankInfo: {
+      accountHolderName: { type: String, required: true },
       accountNumber: String,
       ifsc: String,
       bankName: String,
@@ -33,20 +33,19 @@ const employeeSchema = new mongoose.Schema(
       department: { type: String },
       netsalary: { type: String },
       designation: { type: String },
-      
     },
 
-    idDetails: {
-      aadhaar: String,
-      pan: String,
-      voterId: String,
-    },
+    idDetails: {},
     documents: {
       resume: String,
       offerLetter: String,
       joiningLetter: String,
       experienceLetter: String,
-      idCard: String,
+      aadhaar: String,
+      pan: String,
+      photo: String,
+      bankProof: String,
+      policeVerification: String,
     },
   },
   { timestamps: true }
